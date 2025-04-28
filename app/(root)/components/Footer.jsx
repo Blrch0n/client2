@@ -28,28 +28,28 @@ const socialLinks = [
 
 const contacts = [
   {
-    icon: <IoLocationOutline />,
+    icon: <IoLocationOutline color="#f25c04" />,
     text: "Location",
   },
   {
-    icon: <CiPhone />,
+    icon: <CiPhone color="#f25c04" />,
     text: "Phone",
   },
   {
-    icon: <IoMailOutline />,
+    icon: <IoMailOutline color="#f25c04" />,
     text: "Email",
   },
 ];
 
 const Footer = () => {
   return (
-    <footer className="w-full h-fit flex flex-col bg-[#121921]">
-      <div>
-        <div>
-          <h1>Menu Links</h1>
-          <ul>
+    <footer className="w-full py-8 px-4 h-fit flex text-[#999] flex-col bg-[#121921]">
+      <div className="w-full h-fit flex flex-col md:flex-row justify-between py-8 gap-8">
+        <div className="w-fit h-fit flex flex-col gap-5">
+          <h1 className="text-white font-semibold text-[20px]">Menu Links</h1>
+          <ul className="w-fit h-fit flex flex-col gap-2.5">
             {menulinks.map((link, index) => (
-              <li key={index} className="flex items-center gap-2 text-white">
+              <li key={index} className="flex items-center gap-2 ">
                 <IoMdArrowDropright />
                 {link}
               </li>
@@ -57,22 +57,22 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div>
-          <h1>Contacts</h1>
-          <ul>
+        <div className="w-fit h-fit flex flex-col gap-5">
+          <h1 className="text-white font-semibold text-[20px]">Contacts</h1>
+          <ul className="w-fit h-fit flex flex-col gap-2.5">
             {contacts.map((link, index) => (
-              <li key={index} className="flex items-center gap-2 text-white">
+              <li key={index} className="flex items-center gap-2">
                 {link.icon}
                 {link.text}
               </li>
             ))}
           </ul>
         </div>
-        <div>
-          <h1>Find Us On</h1>
-          <ul className="flex gap-4 text-2xl text-white">
+        <div className="w-fit h-fit flex flex-col gap-5">
+          <h1 className="text-white font-semibold text-[20px]">Find Us On</h1>
+          <ul className="flex gap-4 text-2xl ">
             {socialLinks.map((link, index) => (
-              <li key={index} className="flex items-center gap-2 text-white">
+              <li key={index} className="flex items-center gap-2 ">
                 <a href={link.link} target="_blank" rel="noopener noreferrer">
                   {link.icon}
                 </a>
@@ -82,8 +82,8 @@ const Footer = () => {
         </div>
       </div>
       <hr />
-      <div>
-        <div>
+      <div className="w-full h-fit flex justify-between py-8">
+        <div className="flex gap-1">
           <a href="/">With Love by UWS</a>|<a href="/">Terms and conditions</a>
         </div>
         <p>© 2021 FoodBoard</p>
