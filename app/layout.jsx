@@ -1,3 +1,4 @@
+import { CartProvider } from "./(root)/components/Cart/CartContext";
 import "./globals.css";
 import { Jost } from "next/font/google";
 
@@ -13,7 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${jost.className} antialiased`}>{children}</body>
+      <body className={`${jost.className} antialiased`}>
+        <CartProvider>{children}</CartProvider>
+      </body>
     </html>
   );
 }

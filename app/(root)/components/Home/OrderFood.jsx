@@ -9,7 +9,7 @@ const OrderFood = () => {
   const cardicons = 56;
 
   return (
-    <div className="bg-[#f8f8f8] relative flex flex-col text-[#333] w-full h-fit px-4 pt-8 pb-[60px]">
+    <div className="relative flex flex-col text-[#333] w-full h-fit px-4 pt-8 pb-[60px]">
       <div className="absolute top-[-30px] left-1/2 transform -translate-x-1/2">
         <Button title={<LuMouse size={iconSize} />} isRounded />
       </div>
