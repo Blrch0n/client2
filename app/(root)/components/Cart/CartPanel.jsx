@@ -17,7 +17,7 @@ export default function CartPanel({ open, onClose }) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 font-roboto text-[#333333] transition-opacity duration-300 
+      className={`fixed inset-0 z-50 text-[#333333] transition-opacity duration-300 
                   ${
                     open
                       ? "opacity-100 pointer-events-auto"
@@ -38,7 +38,7 @@ export default function CartPanel({ open, onClose }) {
           <FiX size={24} />
         </button>
 
-        <h2 className=" font-semibold font-roboto text-[#ff4301] text-2xl mb-4">
+        <h2 className=" font-semibold text-[#ff4301] text-2xl mb-4">
           Таны сагс
         </h2>
 
@@ -55,15 +55,13 @@ export default function CartPanel({ open, onClose }) {
                     className="w-20 h-12 rounded mr-2 object-cover"
                   />
                   <div className="flex-1">
-                    <p className="font-medium text-[13px]">
-                      {i.mongolian_name}
-                    </p>
+                    <p className="font-medium text-[13px]">{i.title}</p>
                   </div>
                   <button
                     className="text-red-500"
                     onClick={() => {
                       removeFromCart(i.id);
-                      toast.success(`${i.mongolian_name} сагснаас хаслаа.`);
+                      toast.success(`${i.title} сагснаас хаслаа.`);
                     }}
                   >
                     <FaTimes />
@@ -84,12 +82,10 @@ export default function CartPanel({ open, onClose }) {
                       onClick={() => {
                         if (i.quantity === 1) {
                           removeFromCart(i.id);
-                          toast.success(`${i.mongolian_name} сагснаас хаслаа.`);
+                          toast.success(`${i.title} сагснаас хаслаа.`);
                         } else {
                           decreaseQuantity(i.id);
-                          toast.success(
-                            `${i.mongolian_name} нэг ширхэг хасагдлаа.`
-                          );
+                          toast.success(`${i.title} нэг ширхэг хасагдлаа.`);
                         }
                       }}
                       className="w-6 h-6 flex items-center justify-center rounded-full bg-[#ff4301] text-white"
@@ -100,9 +96,7 @@ export default function CartPanel({ open, onClose }) {
                     <button
                       onClick={() => {
                         increaseQuantity(i.id);
-                        toast.success(
-                          `${i.mongolian_name} нэг ширхэг нэмэгдлээ.`
-                        );
+                        toast.success(`${i.title} нэг ширхэг нэмэгдлээ.`);
                       }}
                       className="w-6 h-6 flex items-center justify-center rounded-full bg-[#ff4301] text-white"
                     >
@@ -117,13 +111,13 @@ export default function CartPanel({ open, onClose }) {
 
         <div className="flex w-full h-fit flex-col gap-4 mt-2.5 px-[15px] border border-[#888] rounded-[5px] py-2.5">
           {items.length > 0 && (
-            <div className="flex w-full flex-col items-start gap-2.5 pt-2">
+            <div className="flex w-full flex-col items-end gap-2.5 pt-2">
               {items.map((i) => (
                 <div
                   key={i.id}
                   className="flex text-[#888] text-[13px] font-medium w-full justify-between mb-2"
                 >
-                  <span>{i.mongolian_name}</span>
+                  <span>{i.title}</span>
                   <span>${i.price}</span>
                 </div>
               ))}
@@ -139,7 +133,7 @@ export default function CartPanel({ open, onClose }) {
                   removeAllFromCart();
                 }}
               >
-                Үргэжлүүлэх
+                Захиалга өгөх
               </button>
             </div>
           )}

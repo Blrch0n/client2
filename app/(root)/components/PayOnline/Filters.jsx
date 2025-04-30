@@ -1,9 +1,25 @@
-import React from "react";
-const Filters = ({ category, setIsCategoryOpen }) => {
+import { useState } from "react";
+
+const Filters = ({
+  category,
+  searchValue,
+  setSearchValue,
+  clickedCategory,
+  setIsCategoryOpen,
+}) => {
   const handleCategoryChange = (e) => {
     const selectedValue = e.target.value;
     setIsCategoryOpen(selectedValue);
     console.log(selectedValue);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  const resetValue = () => {
+    setIsCategoryOpen("");
+    setSearchValue("");
   };
 
   return (
@@ -12,9 +28,12 @@ const Filters = ({ category, setIsCategoryOpen }) => {
       style={{ boxShadow: "0 2px 2px 0 rgb(9 30 66 / 13%)" }}
     >
       <div className="w-full h-fit flex flex-row items-end justify-between">
-        <h1 className="text-[16px] font-bold">Filters</h1>
-        <button className="text-[#f25c04] hover:underline text-[11px] font-medium">
-          Reset Filters
+        <h1 className="text-[16px] font-bold">Хайлт</h1>
+        <button
+          className="text-[#f25c04] hover:underline text-[11px] font-medium"
+          onClick={resetValue}
+        >
+          Хайлтыг дахин ачаалуулах
         </button>
       </div>
 
@@ -24,8 +43,9 @@ const Filters = ({ category, setIsCategoryOpen }) => {
           id="categorySelect"
           className="border h-full w-full px-4 py-2 border-[#333] rounded-[5px]"
           onChange={handleCategoryChange}
+          value={clickedCategory}
         >
-          <option value="">Select a category</option>
+          <option value="">Хоолны төрөлөө сонгоно уу.</option>
           {category.map((item, index) => (
             <option key={index} value={item}>
               {item}
@@ -36,7 +56,9 @@ const Filters = ({ category, setIsCategoryOpen }) => {
         <input
           type="search"
           className="border h-full px-4 py-2 w-full border-[#333] rounded-[5px]"
-          placeholder="Search..."
+          placeholder="Хайх..."
+          value={searchValue}
+          onChange={handleSearchChange}
         />
       </div>
     </div>

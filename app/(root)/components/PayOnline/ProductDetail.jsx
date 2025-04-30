@@ -1,17 +1,20 @@
-import React from "react";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { LuWallet } from "react-icons/lu";
 import { IoCartOutline } from "react-icons/io5";
 import { useCart } from "../Cart/CartContext";
-import { toast } from "react-toastify";
-const ProductDetail = ({ item }) => {
+import { toast } from "react-hot-toast";
+const ProductDetail = ({ item, onShowDetail }) => {
   const { addToCart } = useCart();
+
   const handleAdd = (e) => {
+    console.log(item);
     e.preventDefault();
     addToCart({
       id: item.id,
       title: item.title,
-      // mongolian_name: item.mongolian_name,
+      category: item.category,
+      description: item.description,
+      size: item.size,
       price: item.price,
       img: item.img,
     });
@@ -20,13 +23,13 @@ const ProductDetail = ({ item }) => {
   };
   return (
     <div
-      className="h-fit w-full flex rounded-[10px] overflow-hidden bg-white flex-col"
+      className="h-fit w-full flex rounded-[10px] overflow-hidden bg-white flex-col transition-transform duration-200 hover:scale-102"
       style={{ boxShadow: "0 2px 2px 0 rgb(9 30 66 / 13%)" }}
-      onClick={() => handleAdd()}
     >
       <div
         className="w-full h-[190px] bg-cover relative bg-no-repeat bg-center"
         style={{ backgroundImage: `url(${item.img})` }}
+        onClick={onShowDetail}
       >
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-[] to-black opacity-60"></div>
         <div className="relative inset-0 w-full h-full p-4 flex flex-row justify-between items-end z-20 text-white text-center">
@@ -35,7 +38,7 @@ const ProductDetail = ({ item }) => {
             <p className="text-[13px]">{item.description}</p>
           </div>
           <span className="px-[10px] rounded-[2px] bg-[#f25c04]">
-            Size:{item.size}
+            Хэмжээ:{item.size}
           </span>
         </div>
       </div>
@@ -47,12 +50,12 @@ const ProductDetail = ({ item }) => {
         }}
       >
         <div className="w-full h-fit flex flex-row font-medium text-[#333] gap-2 items-center">
-          <IoReorderThreeOutline size={20} />
-          <p>Options</p>
           <LuWallet size={20} />
           <p>${item.price}</p>
         </div>
-        <IoCartOutline size={20} />
+        <button onClick={handleAdd}>
+          <IoCartOutline size={20} />
+        </button>
       </div>
     </div>
   );

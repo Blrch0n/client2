@@ -7,20 +7,21 @@ import { IoMail } from "react-icons/io5";
 import { useState } from "react";
 import Filters from "./Filters";
 import OrderPayment from "./OrderPayment";
+import ProductModel from "./ProductModel";
 
 const category = ["Starters", "MainDishes", "Desserts"];
 const contactData = [
   {
     icon: <IoLocationSharp color="#f25c04" />,
-    title: "Address",
+    title: "Хаяг",
   },
   {
     icon: <FaPhoneAlt color="#f25c04" />,
-    title: "Phone",
+    title: "Утас",
   },
   {
     icon: <IoMail color="#f25c04" />,
-    title: "Email",
+    title: "И-мэйл",
   },
 ];
 const foodData = [
@@ -135,7 +136,9 @@ const foodData = [
 ];
 
 const PayOnlineMain = () => {
-  const [clickedCategory, setIsCategoryOpen] = useState("Starters");
+  const [clickedCategory, setIsCategoryOpen] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   return (
     <section className="w-full h-fit flex items-center flex-col">
       <div
@@ -148,8 +151,8 @@ const PayOnlineMain = () => {
         <div className="absolute inset-0 z-0 bg-black opacity-50"></div>
         <div className="relative inset-0 px-4 w-full h-full flex flex-col justify-center items-center md:items-start z-20 gap-[30px] text-white text-center">
           <h1 className="text-[48px] lg:text-[60px] font-bold">FOODBOARD</h1>
-          <p className="text-[16px] lg:text-[21px]">
-            Food order wizard with online payment.
+          <p className="text-[16px] font-mono lg:text-[21px]">
+            Та өөрийн хүссэн бараагаа боломжийн үнээр аваарай.
           </p>
           <div className="flex flex-row gap-5 w-fit h-fit">
             {contactData.map((item, index) => (
@@ -164,36 +167,38 @@ const PayOnlineMain = () => {
         </div>
       </div>
       <div className="max-w-[1280px] w-full px-4 py-[60px] h-fit flex flex-col">
-        {/* <div className="w-full py-4 flex flex-row justify-start gap-5">
-          {category.map((item, index) => (
-            <button
-              key={index}
-              className="px-4 py-2 border rounded-full"
-              onClick={() => setIsCategoryOpen(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </div> */}
-
         <div className="w-full h-fit flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-[70%] h-fit flex flex-col gap-5">
             <Filters
               category={category}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+              clickedCategory={clickedCategory}
               setIsCategoryOpen={setIsCategoryOpen}
             />
             <div className="w-full h-fit grid grid-cols-1 md:grid-cols-2 gap-5">
               {foodData
                 .filter(
                   (item) =>
-                    // if no category selected → include everything,
-                    // otherwise only include matching items
-                    clickedCategory === "" || item.category === clickedCategory
+                    clickedCategory === "" ||
+                    (item.category === clickedCategory &&
+                      item.title
+                        .toLowerCase()
+                        .includes(searchValue.toLowerCase()))
                 )
                 .map((foodItem, idx2) => (
-                  <ProductDetail key={idx2} item={foodItem} />
+                  <ProductDetail
+                    key={idx2}
+                    item={foodItem}
+                    onShowDetail={() => setSelectedProduct(foodItem)}
+                  />
                 ))}
             </div>
+            <ProductModel
+              item={selectedProduct}
+              isOpen={!!selectedProduct}
+              onClose={() => setSelectedProduct(null)}
+            />
           </div>
           <OrderPayment />
         </div>

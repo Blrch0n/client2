@@ -21,7 +21,7 @@ export default function FoodCard({ item }) {
   };
 
   return (
-    <div className="flex flex-col font-roboto bg-white rounded-[8px] overflow-hidden shadow">
+    <div className="flex flex-col bg-white rounded-[8px] overflow-hidden shadow">
       <Link href={`/food/${item.id}`}>
         <img
           src={item.img}
