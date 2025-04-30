@@ -71,7 +71,7 @@ export default function CartPanel({ open, onClose }) {
                   <span className="w-20 font-normal text-[#888] mr-2">
                     Үнийн дүн
                   </span>{" "}
-                  ${i.price}
+                  {new Intl.NumberFormat("mn-MN").format(i.price)}₮
                 </div>
                 <div className="w-fit flex text-[14px] items-center font-semibold gap-4 justify-between">
                   <span className="w-20 font-normal text-[#888] mr-2">
@@ -118,12 +118,12 @@ export default function CartPanel({ open, onClose }) {
                   className="flex text-[#888] text-[13px] font-medium w-full justify-between mb-2"
                 >
                   <span>{i.title}</span>
-                  <span>${i.price}</span>
+                  <span>{new Intl.NumberFormat("mn-MN").format(i.price)}₮</span>
                 </div>
               ))}
               <div className="flex w-full text-[#333] font-semibold justify-between mb-2">
                 <p>Нийт төлөх дүн</p>
-                <p>${totalPrice.toFixed(2)}</p>
+                <p>{new Intl.NumberFormat("mn-MN").format(totalPrice)}₮</p>
               </div>
               <button
                 className="bg-[#ff4301] text-white py-[7px] text-[12px] px-[15px] rounded-full"

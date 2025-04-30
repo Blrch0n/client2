@@ -20,7 +20,7 @@ const Header = () => {
           <FaCartShopping size={24} color="#f25c04" />
           {totalCount > 0 && (
             <span
-              className="absolute -top-1 font-bold -right-1 bg-white text-red-600 
+              className="absolute -top-1 font-bold -right-1 bg-[#f8f8f8] text-red-600 
                              rounded-full text-xs w-4 h-4 flex items-center justify-center"
             >
               {totalCount}

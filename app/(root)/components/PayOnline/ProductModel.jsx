@@ -52,7 +52,7 @@ const ProductModel = ({ item, isOpen, onClose }) => {
         </div>
         <div className="w-full h-fit p-4 bg-[#f8f8f8] border-t border-[#ccc]">
           <button
-            className="text-[#333] px-[60px] rounded-[4px] py-2 hover:border-[#f25c04] duration-100 ease-in hover:text-[#f25c04] border-[2px]"
+            className="text-[#333] px-[60px] w-full rounded-[4px] py-2 hover:border-[#f25c04] duration-100 ease-in hover:text-[#f25c04] border-[2px]"
             onClick={onClose}
           >
             Хаах

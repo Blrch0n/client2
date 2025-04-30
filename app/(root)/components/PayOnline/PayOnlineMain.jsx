@@ -31,7 +31,7 @@ const foodData = [
     title: "Aspen",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 10000,
     category: "MainDishes",
   },
   {
@@ -40,7 +40,7 @@ const foodData = [
     title: "Bolognese",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 10000,
     category: "MainDishes",
   },
   {
@@ -49,7 +49,7 @@ const foodData = [
     title: "Castello",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 10000,
     category: "MainDishes",
   },
   {
@@ -58,7 +58,7 @@ const foodData = [
     title: "Fitness",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 10000,
     category: "Desserts",
   },
   {
@@ -67,7 +67,7 @@ const foodData = [
     title: "Caesar Salad",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 10000,
     category: "Starters",
   },
   {
@@ -76,7 +76,7 @@ const foodData = [
     title: "Greek Salad",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 10000,
     category: "Starters",
   },
   {
@@ -85,7 +85,7 @@ const foodData = [
     title: "Grilled Salad",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 10000,
     category: "Starters",
   },
   {
@@ -94,7 +94,7 @@ const foodData = [
     title: "Sushi",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 11000,
     category: "Starters",
   },
   {
@@ -103,7 +103,7 @@ const foodData = [
     title: "Beef Burger",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 11000,
     category: "Starters",
   },
   {
@@ -112,7 +112,7 @@ const foodData = [
     title: "Big Beef Burger",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 11000,
     category: "Starters",
   },
   {
@@ -121,7 +121,7 @@ const foodData = [
     title: "Chicken Burger",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 11000,
     category: "Starters",
   },
   {
@@ -130,7 +130,7 @@ const foodData = [
     title: "Mexican Burger",
     description: "Bacon,Onion,Mushroom",
     size: "M",
-    price: 8,
+    price: 11000,
     category: "Starters",
   },
 ];
@@ -178,14 +178,14 @@ const PayOnlineMain = () => {
             />
             <div className="w-full h-fit grid grid-cols-1 md:grid-cols-2 gap-5">
               {foodData
-                .filter(
-                  (item) =>
-                    clickedCategory === "" ||
-                    (item.category === clickedCategory &&
-                      item.title
-                        .toLowerCase()
-                        .includes(searchValue.toLowerCase()))
-                )
+                .filter((item) => {
+                  const matchesCategory =
+                    clickedCategory === "" || item.category === clickedCategory;
+                  const matchesSearch = item.title
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase());
+                  return matchesCategory && matchesSearch;
+                })
                 .map((foodItem, idx2) => (
                   <ProductDetail
                     key={idx2}

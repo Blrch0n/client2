@@ -51,7 +51,7 @@ const ProductDetail = ({ item, onShowDetail }) => {
       >
         <div className="w-full h-fit flex flex-row font-medium text-[#333] gap-2 items-center">
           <LuWallet size={20} />
-          <p>${item.price}</p>
+          <p>{new Intl.NumberFormat("en-US").format(item.price || 0)}₮ </p>
         </div>
         <button onClick={handleAdd}>
           <IoCartOutline size={20} />

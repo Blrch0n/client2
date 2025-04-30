@@ -12,7 +12,24 @@ const Filters = ({
     setIsCategoryOpen(selectedValue);
     console.log(selectedValue);
   };
-
+  {
+    foodData
+      .filter((item) => {
+        const matchesCategory =
+          clickedCategory === "" || item.category === clickedCategory;
+        const matchesSearch = item.title
+          .toLowerCase()
+          .includes(searchValue.toLowerCase());
+        return matchesCategory && matchesSearch;
+      })
+      .map((foodItem, idx2) => (
+        <ProductDetail
+          key={idx2}
+          item={foodItem}
+          onShowDetail={() => setSelectedProduct(foodItem)}
+        />
+      ));
+  }
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
   };
