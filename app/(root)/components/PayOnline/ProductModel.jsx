@@ -1,7 +1,8 @@
+import apiData from "@/utils/apiData";
 import { useEffect, useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 
-const ANIMATION_DURATION = 500; // ms, match your Tailwind duration
+const ANIMATION_DURATION = 500;
 
 const ProductModel = ({ item, isOpen, onClose }) => {
   const [show, setShow] = useState(false);
@@ -10,7 +11,6 @@ const ProductModel = ({ item, isOpen, onClose }) => {
     if (isOpen && item) {
       setShow(true);
     } else if (show) {
-      // Wait for animation before unmounting
       const timeout = setTimeout(() => setShow(false), ANIMATION_DURATION);
       return () => clearTimeout(timeout);
     }
@@ -41,7 +41,7 @@ const ProductModel = ({ item, isOpen, onClose }) => {
         </div>
         <div className="flex p-4 flex-col items-center">
           <img
-            src={item.img}
+            src={apiData.file_api_url + item.cover}
             alt="model-image"
             className="mb-4 w-full h-auto rounded-[4px] object-contain"
           />

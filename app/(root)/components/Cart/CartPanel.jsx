@@ -4,8 +4,9 @@ import { FiX } from "react-icons/fi";
 import { useCart } from "../Cart/CartContext";
 import { FaTimes } from "react-icons/fa";
 import toast from "react-hot-toast";
+import postRawRequest from "@/utils/PostRawRequest";
 
-export default function CartPanel({ open, onClose }) {
+export default function CartPanel({ open, onClose , merchantid ,tableid}) {
   const {
     items,
     totalPrice,
@@ -14,6 +15,38 @@ export default function CartPanel({ open, onClose }) {
     decreaseQuantity,
     removeAllFromCart,
   } = useCart();
+
+  const handleCheckout = async () => {
+    if (!items || items.length === 0) {
+      toast.error("Сагс хоосон байна.");
+      return;
+    }
+
+    const productsToSend = items.map((item) => ({
+      product: item.id || item._id,
+      price: item.price,
+      total: item.quantity,
+    }));
+    const response = await postRawRequest({
+      route: 'order',
+      body: {
+        products: productsToSend,
+        totalPrice,
+        merchantId: merchantid,
+        tableId: tableid,
+        isPaid: false,
+      },
+    });
+    
+    if (response?.data?.success) {
+      toast.success("Захиалга амжилттай хийгдлээ.");
+      removeAllFromCart();
+    } else {
+      toast.error("Захиалга хийхэд алдаа гарлаа.");
+      console.log("Алдаа дэлгэрэнгүй:", response?.data || response);
+    }
+    
+  };
 
   return (
     <div
@@ -128,9 +161,9 @@ export default function CartPanel({ open, onClose }) {
               <button
                 className="bg-[#ff4301] text-white py-[7px] text-[12px] px-[15px] rounded-full"
                 onClick={() => {
-                  onClose();
-                  toast.success("Амжилттай захиалсан.");
+                  onClose()
                   removeAllFromCart();
+                  handleCheckout();
                 }}
               >
                 Захиалга өгөх

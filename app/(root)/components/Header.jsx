@@ -4,9 +4,10 @@ import { useState } from "react";
 import CartPanel from "./Cart/CartPanel";
 import { useCart } from "./Cart/CartContext";
 
-const Header = () => {
+const Header = ({tableid , merchantid}) => {
   const { totalCount } = useCart();
   const [open, setOpen] = useState(false);
+
   return (
     <header className="flex justify-between  fixed top-0 w-full z-49 items-center bg-white p-2.5 shadow-md">
       <div className="w-fit h-fit flex items-center gap-4">
@@ -28,7 +29,7 @@ const Header = () => {
           )}
         </button>
       </div>
-      <CartPanel open={open} onClose={() => setOpen(false)} />
+      <CartPanel open={open} onClose={() => setOpen(false)} merchantid={merchantid} tableid={tableid}/>
     </header>
   );
 };

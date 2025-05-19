@@ -4,12 +4,12 @@ import ProductDetail from "./ProductDetail";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMail } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Filters from "./Filters";
 import OrderPayment from "./OrderPayment";
 import ProductModel from "./ProductModel";
+import getRequest from "@/utils/getRequest";
 
-const category = ["Starters", "MainDishes", "Desserts"];
 const contactData = [
   {
     icon: <IoLocationSharp color="#f25c04" />,
@@ -24,121 +24,25 @@ const contactData = [
     title: "И-мэйл",
   },
 ];
-const foodData = [
-  {
-    id: 1,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/01.jpg",
-    title: "Aspen",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 10000,
-    category: "MainDishes",
-  },
-  {
-    id: 2,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/02.jpg",
-    title: "Bolognese",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 10000,
-    category: "MainDishes",
-  },
-  {
-    id: 3,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/03.jpg",
-    title: "Castello",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 10000,
-    category: "MainDishes",
-  },
-  {
-    id: 4,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/04.jpg",
-    title: "Fitness",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 10000,
-    category: "Desserts",
-  },
-  {
-    id: 5,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/05.jpg",
-    title: "Caesar Salad",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 10000,
-    category: "Starters",
-  },
-  {
-    id: 6,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/06.jpg",
-    title: "Greek Salad",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 10000,
-    category: "Starters",
-  },
-  {
-    id: 7,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/07.jpg",
-    title: "Grilled Salad",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 10000,
-    category: "Starters",
-  },
-  {
-    id: 8,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/08.jpg",
-    title: "Sushi",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 11000,
-    category: "Starters",
-  },
-  {
-    id: 9,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/09.jpg",
-    title: "Beef Burger",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 11000,
-    category: "Starters",
-  },
-  {
-    id: 10,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/10.jpg",
-    title: "Big Beef Burger",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 11000,
-    category: "Starters",
-  },
-  {
-    id: 11,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/11.jpg",
-    title: "Chicken Burger",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 11000,
-    category: "Starters",
-  },
-  {
-    id: 12,
-    img: "https://ultimatewebsolutions.net/foodboard/img/gallery/grid-items/12.jpg",
-    title: "Mexican Burger",
-    description: "Bacon,Onion,Mushroom",
-    size: "M",
-    price: 11000,
-    category: "Starters",
-  },
-];
 
-const PayOnlineMain = () => {
+const PayOnlineMain = ({merchantid , tableid}) => {
   const [clickedCategory, setIsCategoryOpen] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [datas , setDatas] = useState([]);
+  const [subdatas, setSubdatas] = useState([]);
+  const [slider , setSlider] = useState([])
+  const [isLoading , setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if(isLoading){
+      Promise.all([
+      getRequest({route: `product?user=${merchantid}` , setValue: setDatas}),
+      getRequest({route: `subcategory?user=${merchantid}` , setValue: setSubdatas}),
+      getRequest({route: `slider?user=${merchantid}` , setValue: setSlider})
+  ]).finally(() => setIsLoading(false))}
+  },[isLoading])
+
   return (
     <section className="w-full h-fit flex items-center flex-col">
       <div
@@ -170,17 +74,17 @@ const PayOnlineMain = () => {
         <div className="w-full h-fit flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-[70%] h-fit flex flex-col gap-5">
             <Filters
-              category={category}
+              category={subdatas}
               searchValue={searchValue}
               setSearchValue={setSearchValue}
               clickedCategory={clickedCategory}
               setIsCategoryOpen={setIsCategoryOpen}
             />
             <div className="w-full h-fit grid grid-cols-1 md:grid-cols-2 gap-5">
-              {foodData
+              {datas
                 .filter((item) => {
                   const matchesCategory =
-                    clickedCategory === "" || item.category === clickedCategory;
+                    clickedCategory === "" || item.subcategory  === clickedCategory;
                   const matchesSearch = item.title
                     .toLowerCase()
                     .includes(searchValue.toLowerCase());
@@ -200,7 +104,7 @@ const PayOnlineMain = () => {
               onClose={() => setSelectedProduct(null)}
             />
           </div>
-          <OrderPayment />
+          <OrderPayment merchantid={merchantid} tableid={tableid} />
         </div>
       </div>
     </section>

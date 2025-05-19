@@ -3,6 +3,7 @@ import { LuWallet } from "react-icons/lu";
 import { IoCartOutline } from "react-icons/io5";
 import { useCart } from "../Cart/CartContext";
 import { toast } from "react-hot-toast";
+import apiData from "@/utils/apiData";
 const ProductDetail = ({ item, onShowDetail }) => {
   const { addToCart } = useCart();
 
@@ -10,16 +11,14 @@ const ProductDetail = ({ item, onShowDetail }) => {
     console.log(item);
     e.preventDefault();
     addToCart({
-      id: item.id,
+      id: item._id,
       title: item.title,
       category: item.category,
       description: item.description,
       size: item.size,
       price: item.price,
-      img: item.img,
+      img: apiData.file_api_url + item.cover,
     });
-
-    toast.success(`${item.title} нэмэгдлээ.`);
   };
   return (
     <div
@@ -28,7 +27,7 @@ const ProductDetail = ({ item, onShowDetail }) => {
     >
       <div
         className="w-full h-[190px] bg-cover relative bg-no-repeat bg-center"
-        style={{ backgroundImage: `url(${item.img})` }}
+        style={{ backgroundImage: `url(${apiData.file_api_url + item.cover})` }}
         onClick={onShowDetail}
       >
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-[] to-black opacity-60"></div>

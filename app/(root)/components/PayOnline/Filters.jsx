@@ -1,3 +1,5 @@
+
+
 const Filters = ({
   category,
   searchValue,
@@ -45,8 +47,8 @@ const Filters = ({
         >
           <option value="">Хоолны төрөлөө сонгоно уу.</option>
           {category.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
+            <option key={index} value={item._id}>
+              {item.title}
             </option>
           ))}
         </select>
