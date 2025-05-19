@@ -3,18 +3,21 @@ import { FaCartShopping } from "react-icons/fa6";
 import { useState } from "react";
 import CartPanel from "./Cart/CartPanel";
 import { useCart } from "./Cart/CartContext";
+import Link from "next/link";
 
-const Header = ({tableid , merchantid}) => {
+const Header = ({ tableid, merchantid }) => {
   const { totalCount } = useCart();
   const [open, setOpen] = useState(false);
 
   return (
     <header className="flex justify-between  fixed top-0 w-full z-49 items-center bg-white p-2.5 shadow-md">
       <div className="w-fit h-fit flex items-center gap-4">
-        <img
-          src="https://ultimatewebsolutions.net/foodboard/img/logo.svg"
-          alt="image"
-        />
+        <Link href={`/table/${tableid}/${merchantid}`}>
+          <img
+            src="https://ultimatewebsolutions.net/foodboard/img/logo.svg"
+            alt="image"
+          />
+        </Link>
       </div>
       <div className="flex gap-4 text-2xl items-center font-semibold text-black">
         <button onClick={() => setOpen((o) => !o)} className="relative">
@@ -29,7 +32,12 @@ const Header = ({tableid , merchantid}) => {
           )}
         </button>
       </div>
-      <CartPanel open={open} onClose={() => setOpen(false)} merchantid={merchantid} tableid={tableid}/>
+      <CartPanel
+        open={open}
+        onClose={() => setOpen(false)}
+        merchantid={merchantid}
+        tableid={tableid}
+      />
     </header>
   );
 };

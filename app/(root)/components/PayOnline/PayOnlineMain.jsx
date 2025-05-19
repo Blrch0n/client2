@@ -25,23 +25,27 @@ const contactData = [
   },
 ];
 
-const PayOnlineMain = ({merchantid , tableid}) => {
+const PayOnlineMain = ({ merchantid, tableid }) => {
   const [clickedCategory, setIsCategoryOpen] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [datas , setDatas] = useState([]);
+  const [datas, setDatas] = useState([]);
   const [subdatas, setSubdatas] = useState([]);
-  const [slider , setSlider] = useState([])
-  const [isLoading , setIsLoading] = useState(true);
+  const [slider, setSlider] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if(isLoading){
+    if (isLoading) {
       Promise.all([
-      getRequest({route: `product?user=${merchantid}` , setValue: setDatas}),
-      getRequest({route: `subcategory?user=${merchantid}` , setValue: setSubdatas}),
-      getRequest({route: `slider?user=${merchantid}` , setValue: setSlider})
-  ]).finally(() => setIsLoading(false))}
-  },[isLoading])
+        getRequest({ route: `product?user=${merchantid}`, setValue: setDatas }),
+        getRequest({
+          route: `subcategory?user=${merchantid}`,
+          setValue: setSubdatas,
+        }),
+        getRequest({ route: `slider?user=${merchantid}`, setValue: setSlider }),
+      ]).finally(() => setIsLoading(false));
+    }
+  }, [isLoading]);
 
   return (
     <section className="w-full h-fit flex items-center flex-col">
@@ -84,7 +88,8 @@ const PayOnlineMain = ({merchantid , tableid}) => {
               {datas
                 .filter((item) => {
                   const matchesCategory =
-                    clickedCategory === "" || item.subcategory  === clickedCategory;
+                    clickedCategory === "" ||
+                    item.subcategory === clickedCategory;
                   const matchesSearch = item.title
                     .toLowerCase()
                     .includes(searchValue.toLowerCase());

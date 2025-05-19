@@ -26,12 +26,11 @@ const postRawRequest = async ({
     if (updateUser) updateUser();
     if (setValue) setValue(res.data.data?.[0] || res.data.data);
 
-    return res; 
-
+    return res;
   } catch (err) {
     console.error("PostRawRequest алдаа:", err);
     if (errorFunction) errorFunction(err);
-    return { status: 500, data: null }; 
+    return { status: 500, data: null };
   } finally {
     if (setIsLoading) setIsLoading(false);
   }
