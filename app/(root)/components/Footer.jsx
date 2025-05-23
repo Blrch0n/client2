@@ -1,4 +1,3 @@
-import { IoMdArrowDropright } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
 import { CiPhone } from "react-icons/ci";
 import { IoMailOutline } from "react-icons/io5";
@@ -6,7 +5,6 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaPinterestP } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
-const menulinks = ["Home", "FAQ", "Contacts"];
 const socialLinks = [
   {
     icon: <FaFacebookF />,
@@ -46,18 +44,6 @@ const Footer = () => {
     <footer className="w-full py-8 px-4 h-fit flex text-[#999] flex-col bg-[#121921]">
       <div className="w-full h-fit flex flex-col md:flex-row justify-between py-8 gap-8">
         <div className="w-fit h-fit flex flex-col gap-5">
-          <h1 className="text-white font-semibold text-[20px]">Menu Links</h1>
-          <ul className="w-fit h-fit flex flex-col gap-2.5">
-            {menulinks.map((link, index) => (
-              <li key={index} className="flex items-center gap-2 ">
-                <IoMdArrowDropright />
-                {link}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="w-fit h-fit flex flex-col gap-5">
           <h1 className="text-white font-semibold text-[20px]">Contacts</h1>
           <ul className="w-fit h-fit flex flex-col gap-2.5">
             {contacts.map((link, index) => (
@@ -83,7 +69,7 @@ const Footer = () => {
       </div>
       <hr />
       <div className="w-full h-fit flex justify-between py-8">
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-row flex-nowrap">
           <a href="/">With Love by UWS</a>|<a href="/">Terms and conditions</a>
         </div>
         <p>© 2021 FoodBoard</p>
