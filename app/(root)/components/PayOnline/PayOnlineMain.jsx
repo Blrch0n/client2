@@ -9,6 +9,7 @@ import Filters from "./Filters";
 import OrderPayment from "./OrderPayment";
 import ProductModel from "./ProductModel";
 import getRequest from "@/utils/getRequest";
+import apiData from "@/utils/apiData";
 
 const contactData = [
   {
@@ -42,25 +43,33 @@ const PayOnlineMain = ({ merchantid, tableid }) => {
           route: `subcategory?user=${merchantid}`,
           setValue: setSubdatas,
         }),
-        getRequest({ route: `slider?user=${merchantid}`, setValue: setSlider }),
+        getRequest({
+          route: `slider/merchant/${merchantid}`,
+          setValue: setSlider,
+        }),
       ]).finally(() => setIsLoading(false));
     }
   }, [isLoading]);
+
+  const sliderData = slider[0] || [];
 
   return (
     <section className="w-full h-fit flex items-center flex-col">
       <div
         className=" w-full h-[450px] bg-cover bg-no-repeat bg-center bg-[#f25c04] relative"
         style={{
-          backgroundImage:
-            "url('https://ultimatewebsolutions.net/foodboard/img/bg/bg.jpg')",
+          backgroundImage: sliderData.image
+            ? `url('${apiData.file_api_url}${sliderData.image}')`
+            : "none",
         }}
       >
         <div className="absolute inset-0 z-0 bg-black opacity-50"></div>
         <div className="relative inset-0 px-4 w-full h-full flex flex-col justify-center items-center md:items-start z-20 gap-[30px] text-white text-center">
-          <h1 className="text-[48px] lg:text-[60px] font-bold">FOODBOARD</h1>
+          <h1 className="text-[48px] lg:text-[60px] font-bold">
+            {sliderData.title}
+          </h1>
           <p className="text-[16px] font-mono lg:text-[21px]">
-            Та өөрийн хүссэн бараагаа боломжийн үнээр аваарай.
+            {sliderData.description}
           </p>
           <div className="flex flex-row gap-5 w-fit h-fit">
             {contactData.map((item, index) => (

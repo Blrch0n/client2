@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../Cart/CartContext";
 import toast from "react-hot-toast";
 import { IoTrash } from "react-icons/io5";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import postRawRequest from "@/utils/PostRawRequest";
+import { useOrderHistory } from "../ContextFile";
 
 const OrderPayment = ({ merchantid, tableid }) => {
+  const [isHistoryClicked, setIsHistoryClicked] = useState(false);
+  const { orderHistory, addOrderToHistory } = useOrderHistory();
+  const [isOrderClicked, setIsOrderClicked] = useState(null);
   const {
     items,
     totalPrice,
@@ -25,26 +29,67 @@ const OrderPayment = ({ merchantid, tableid }) => {
       product: item.id || item._id,
       price: item.price,
       total: item.quantity,
+      // title: item.title, // Add title for history display
     }));
+
+    // Create order data object
+    const orderData = {
+      products: productsToSend,
+      totalPrice,
+      merchantId: merchantid,
+      tableId: tableid,
+      isPaid: false,
+      // orderDate: new Date().toISOString(),
+    };
+
     const response = await postRawRequest({
-      route: 'order',
-      body: {
-        products: productsToSend,
-        totalPrice,
-        merchantId: merchantid,
-        tableId: tableid,
-        isPaid: false,
-      },
+      route: "order",
+      body: orderData,
     });
-    
+
     if (response?.data?.success) {
-      toast.success("Захиалга амжилттай хийгдлээ.");
-      removeAllFromCart();
+      try {
+        console.log("response", response.data);
+        console.log("orderData", items);
+        const orderDate = new Date().toISOString();
+        const existingOrders = JSON.parse(
+          localStorage.getItem("orderHistory") || "[]"
+        );
+
+        const productsWithTitles = items.map((item) => {
+          return {
+            product: item.id || item._id,
+            price: item.price,
+            total: item.quantity,
+            title: item.title, // Include title for history display
+          };
+        });
+
+        const orderToStore = {
+          products: productsWithTitles,
+          totalPrice,
+          branch: "hello",
+          merchantId: merchantid,
+          tableId: tableid,
+          isPaid: false,
+          orderDate, // Include order date for local storage
+          orderId: response.data.orderId || Date.now(),
+          status: "success",
+        };
+        console.log("orderToStore", orderToStore);
+
+        addOrderToHistory(orderToStore);
+
+        toast.success("Захиалга амжилттай хийгдлээ.");
+        removeAllFromCart();
+      } catch (error) {
+        console.error("Error storing order history:", error);
+        toast.error("Захиалгын түүх хадгалахад алдаа гарлаа.");
+      }
     } else {
       toast.error("Захиалга хийхэд алдаа гарлаа.");
       console.log("Алдаа дэлгэрэнгүй:", response?.data || response);
     }
-    
   };
 
   return (
@@ -56,13 +101,19 @@ const OrderPayment = ({ merchantid, tableid }) => {
         {items && items.length > 0 ? (
           items.map((data, index) => (
             <div key={index} className="flex gap-2 text-[#333]">
-              <img src={data.img} alt={data.title} className="w-[100px] rounded-[10px]" />
+              <img
+                src={data.img}
+                alt={data.title}
+                className="w-[100px] rounded-[10px]"
+              />
               <div className="flex flex-col justify-between w-full">
                 <div className="flex justify-between">
                   <div className="text-[13px] font-semibold">
                     <h1>{data.title}</h1>
                     <p className="font-medium">
-                      {data.description.length > 10 ? `${data.description.slice(0, 10)}...` : data.description}
+                      {data.description.length > 10
+                        ? `${data.description.slice(0, 10)}...`
+                        : data.description}
                     </p>
                   </div>
                   <p className="font-bold">
@@ -78,7 +129,9 @@ const OrderPayment = ({ merchantid, tableid }) => {
                       }}
                       className="cursor-pointer"
                     />
-                    <span className="w-[20px] text-center">{data.quantity}</span>
+                    <span className="w-[20px] text-center">
+                      {data.quantity}
+                    </span>
                     <FaPlus
                       onClick={() => {
                         increaseQuantity(data.id);

@@ -8,7 +8,6 @@ const ProductDetail = ({ item, onShowDetail }) => {
   const { addToCart } = useCart();
 
   const handleAdd = (e) => {
-    console.log(item);
     e.preventDefault();
     addToCart({
       id: item._id,

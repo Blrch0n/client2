@@ -2,6 +2,7 @@ import { Toaster } from "react-hot-toast";
 import { CartProvider } from "./(root)/components/Cart/CartContext";
 import "./globals.css";
 import { Jost } from "next/font/google";
+import { OrderHistoryProvider } from "./(root)/components/ContextFile";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -17,7 +18,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${jost.className} antialiased`}>
-        <CartProvider><Toaster />{children}</CartProvider>
+        <OrderHistoryProvider>
+          <CartProvider>
+            <Toaster />
+            {children}
+          </CartProvider>
+        </OrderHistoryProvider>
       </body>
     </html>
   );
