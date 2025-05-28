@@ -51,7 +51,28 @@ const PayOnlineMain = ({ merchantid, tableid }) => {
     }
   }, [isLoading]);
 
+  if (isLoading) {
+    <section className="w-full h-screen bg-red-300 flex items-center flex-col">
+      <svg
+        className="mr-3 size-10 animate-spin"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+      >
+        <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </section>;
+  }
+
   const sliderData = slider[0] || [];
+
+  const filteredDatas = datas.filter((item) => {
+    const matchesCategory =
+      clickedCategory === "" || item.subcategory === clickedCategory;
+    const matchesSearch = item.title
+      .toLowerCase()
+      .includes(searchValue.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <section className="w-full h-fit flex items-center flex-col">
@@ -94,23 +115,19 @@ const PayOnlineMain = ({ merchantid, tableid }) => {
               setIsCategoryOpen={setIsCategoryOpen}
             />
             <div className="w-full h-fit grid grid-cols-1 md:grid-cols-2 gap-5">
-              {datas
-                .filter((item) => {
-                  const matchesCategory =
-                    clickedCategory === "" ||
-                    item.subcategory === clickedCategory;
-                  const matchesSearch = item.title
-                    .toLowerCase()
-                    .includes(searchValue.toLowerCase());
-                  return matchesCategory && matchesSearch;
-                })
-                .map((foodItem, idx2) => (
+              {filteredDatas.length > 0 ? (
+                filteredDatas.map((item, index) => (
                   <ProductDetail
-                    key={idx2}
-                    item={foodItem}
-                    onShowDetail={() => setSelectedProduct(foodItem)}
+                    key={index}
+                    item={item}
+                    onClick={() => setSelectedProduct(item)}
                   />
-                ))}
+                ))
+              ) : (
+                <div className="w-full h-fit py-28 flex items-center justify-center text-gray-500">
+                  Таны хайсан бүтээгдэхүүн олдсонгүй.
+                </div>
+              )}
             </div>
             <ProductModel
               item={selectedProduct}

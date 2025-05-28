@@ -19,6 +19,7 @@ const ProductDetail = ({ item, onShowDetail }) => {
       img: apiData.file_api_url + item.cover,
     });
   };
+  console.log(item);
   return (
     <div
       className="h-fit w-full flex rounded-[10px] overflow-hidden bg-white flex-col transition-transform duration-200 hover:scale-102"
@@ -26,9 +27,21 @@ const ProductDetail = ({ item, onShowDetail }) => {
     >
       <div
         className="w-full h-[190px] bg-cover relative bg-no-repeat bg-center"
-        style={{ backgroundImage: `url(${apiData.file_api_url + item.cover})` }}
+        // style={{
+        //   backgroundImage: `url(${
+        //     item.cover ? apiData.file_api_url + item.cover : ""
+        //   })`,
+        // }}
         onClick={onShowDetail}
       >
+        {item.cover && (
+          <img
+            src={apiData.file_api_url + item.cover}
+            alt={item.title || "Product"}
+            className="w-full h-full object-cover absolute top-0 left-0"
+          />
+        )}
+        {/* <img src={apiData.file_api_url + item.cover} alt="" /> */}
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-[] to-black opacity-60"></div>
         <div className="relative inset-0 w-full h-full p-4 flex flex-row justify-between items-end z-20 text-white text-center">
           <div className="w-full h-fit flex flex-col items-start font-medium">
