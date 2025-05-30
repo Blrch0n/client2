@@ -125,7 +125,7 @@ export default function CartPanel({ open, onClose, tableid, merchantid }) {
           <FiX size={24} />
         </button>
 
-        <h2 className=" font-semibold font-roboto text-[#ff4301] text-2xl mb-4">
+        <h2 className=" font-semibold font-roboto text-[#121921] text-2xl mb-4">
           Таны сагс
         </h2>
 
