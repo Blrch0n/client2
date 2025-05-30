@@ -35,7 +35,7 @@ const ProductModel = ({ item, isOpen, onClose }) => {
           <button onClick={onClose} className="text-lg font-bold">
             <LiaTimesSolid
               size={25}
-              className="hover:text-[#f25c04] duration-100 ease-in"
+              className="hover:text-[#f25c04] cursor-pointer duration-100 ease-in"
             />
           </button>
         </div>
@@ -45,14 +45,14 @@ const ProductModel = ({ item, isOpen, onClose }) => {
             alt="model-image"
             className="mb-4 w-full h-auto rounded-[4px] object-contain"
           />
-          <div className="w-full h-fit flex flex-col gap-8 pb-5">
+          <div className="w-full h-fit flex flex-col gap-6 pb-5">
             <h2 className="font-semibold">Хоолны найрлага</h2>
-            <p>{item.description}</p>
+            <p className="text-[14px]">{item.description}</p>
           </div>
         </div>
         <div className="w-full h-fit p-4 bg-[#f8f8f8] border-t border-[#ccc]">
           <button
-            className="text-[#333] px-[60px] w-full rounded-[4px] py-2 hover:border-[#f25c04] duration-100 ease-in hover:text-[#f25c04] border-[2px]"
+            className="text-[#333] px-[60px] w-full cursor-pointer rounded-[4px] py-2 hover:border-[#f25c04] duration-100 ease-in hover:text-[#f25c04] border-[2px]"
             onClick={onClose}
           >
             Хаах

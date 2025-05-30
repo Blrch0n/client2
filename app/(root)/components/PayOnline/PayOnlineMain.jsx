@@ -143,7 +143,9 @@ const PayOnlineMain = ({ merchantid, tableid }) => {
                   <ProductDetail
                     key={index}
                     item={item}
-                    onClick={() => setSelectedProduct(item)}
+                    onClick={() => {
+                      setSelectedProduct(item);
+                    }}
                   />
                 ))
               ) : (
