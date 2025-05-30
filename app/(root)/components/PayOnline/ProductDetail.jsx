@@ -23,7 +23,7 @@ const ProductDetail = ({ item, onShowDetail, onClick }) => {
     <div
       className="h-fit w-full flex rounded-[10px] overflow-hidden bg-white flex-col transition-transform duration-200 hover:scale-102"
       style={{ boxShadow: "0 2px 2px 0 rgb(9 30 66 / 13%)" }}
-      onClick={onClick}
+      // onClick={onClick}
     >
       <div
         className="w-full h-[190px] bg-cover relative bg-no-repeat bg-center"
@@ -32,7 +32,10 @@ const ProductDetail = ({ item, onShowDetail, onClick }) => {
         //     item.cover ? apiData.file_api_url + item.cover : ""
         //   })`,
         // }}
-        onClick={onShowDetail}
+        onClick={(e) => {
+          if (onShowDetail) onShowDetail();
+          if (onClick) onClick();
+        }}
       >
         {item.cover && (
           <img

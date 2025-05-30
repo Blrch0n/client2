@@ -46,7 +46,8 @@ const Filters = ({
         </button>
       </div>
 
-      <div className="w-full h-fit flex flex-col sm:flex-row gap-4 items-center justify-between">
+      <div className="w-full h-fit flex flex-col sm:flex-row gap-4 items-start justify-between">
+        <h1 className="text-[16px] font-bold">Ангилал:</h1>
         <select
           name="category"
           id="categorySelect"
@@ -61,21 +62,25 @@ const Filters = ({
             </option>
           ))}
         </select>
+
         {clickedCategory !== "" && (
-          <select
-            name="subcategory"
-            id="subcategorySelect"
-            className="border h-full w-full px-4 py-2 border-[#333] rounded-[5px]"
-            onChange={handleSubcategoryChange}
-            value={clickedSubCategory}
-          >
-            <option value="">Хоолны төрөлөө сонгоно уу</option>
-            {subcategory.map((item, index) => (
-              <option key={index} value={item._id}>
-                {item.title}
-              </option>
-            ))}
-          </select>
+          <>
+            <h1 className="text-[16px] font-bold">Дэд ангилал:</h1>
+            <select
+              name="subcategory"
+              id="subcategorySelect"
+              className="border h-full w-full px-4 py-2 border-[#333] rounded-[5px]"
+              onChange={handleSubcategoryChange}
+              value={clickedSubCategory}
+            >
+              <option value="">Хоолны төрөлөө сонгоно уу</option>
+              {subcategory.map((item, index) => (
+                <option key={index} value={item._id}>
+                  {item.title}
+                </option>
+              ))}
+            </select>
+          </>
         )}
 
         <input
