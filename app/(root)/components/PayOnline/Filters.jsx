@@ -1,16 +1,24 @@
-
-
 const Filters = ({
   category,
+  subcategory,
   searchValue,
   setSearchValue,
   clickedCategory,
+  clickedSubCategory,
   setIsCategoryOpen,
+  setIsSubCategoryOpen,
 }) => {
   const handleCategoryChange = (e) => {
-    const selectedValue = e.target.value;
-    setIsCategoryOpen(selectedValue);
-    console.log(selectedValue);
+    console.log("Category changed:", e.target.value);
+    const categoryId = e.target.value;
+    setIsCategoryOpen(categoryId);
+    setIsSubCategoryOpen("");
+  };
+
+  const handleSubcategoryChange = (e) => {
+    console.log("Subcategory changed:", e.target.value);
+    const subcategoryId = e.target.value;
+    setIsSubCategoryOpen(subcategoryId);
   };
 
   const handleSearchChange = (e) => {
@@ -19,6 +27,7 @@ const Filters = ({
 
   const resetValue = () => {
     setIsCategoryOpen("");
+    setIsSubCategoryOpen("");
     setSearchValue("");
   };
 
@@ -45,13 +54,29 @@ const Filters = ({
           onChange={handleCategoryChange}
           value={clickedCategory}
         >
-          <option value="">Хоолны төрөлөө сонгоно уу.</option>
+          <option value="">Хоолны төрөлөө сонгоно уу</option>
           {category.map((item, index) => (
             <option key={index} value={item._id}>
               {item.title}
             </option>
           ))}
         </select>
+        {clickedCategory !== "" && (
+          <select
+            name="subcategory"
+            id="subcategorySelect"
+            className="border h-full w-full px-4 py-2 border-[#333] rounded-[5px]"
+            onChange={handleSubcategoryChange}
+            value={clickedSubCategory}
+          >
+            <option value="">Хоолны төрөлөө сонгоно уу</option>
+            {subcategory.map((item, index) => (
+              <option key={index} value={item._id}>
+                {item.title}
+              </option>
+            ))}
+          </select>
+        )}
 
         <input
           type="search"

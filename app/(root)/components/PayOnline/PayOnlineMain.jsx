@@ -27,10 +27,12 @@ const contactData = [
 ];
 
 const PayOnlineMain = ({ merchantid, tableid }) => {
-  const [clickedCategory, setIsCategoryOpen] = useState("");
+  const [clickedCategory, setClickedCategory] = useState("");
+  const [clickedSubCategory, setClickedSubCategory] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [datas, setDatas] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   const [subdatas, setSubdatas] = useState([]);
   const [slider, setSlider] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,9 +40,14 @@ const PayOnlineMain = ({ merchantid, tableid }) => {
   useEffect(() => {
     if (isLoading) {
       Promise.all([
+        getRequest({
+          route: `category/merchant/${merchantid}`,
+          setValue: setCategoryData,
+        }),
+
         getRequest({ route: `product?user=${merchantid}`, setValue: setDatas }),
         getRequest({
-          route: `subcategory?user=${merchantid}`,
+          route: `subcategory/merchant/${merchantid}`,
           setValue: setSubdatas,
         }),
         getRequest({
@@ -63,16 +70,29 @@ const PayOnlineMain = ({ merchantid, tableid }) => {
     </section>;
   }
 
-  const sliderData = slider[0] || [];
+  const filteredSubcategories = subdatas.filter((subcat) => {
+    return clickedCategory === "" || subcat.category === clickedCategory;
+  });
 
   const filteredDatas = datas.filter((item) => {
+    const matchesSubcategory =
+      clickedSubCategory === "" || item.subcategory === clickedSubCategory;
     const matchesCategory =
-      clickedCategory === "" || item.subcategory === clickedCategory;
+      clickedCategory === "" ||
+      subdatas.find((sub) => sub._id === item.subcategory)?.category ===
+        clickedCategory;
     const matchesSearch = item.title
       .toLowerCase()
       .includes(searchValue.toLowerCase());
-    return matchesCategory && matchesSearch;
+
+    return (
+      (matchesSubcategory || clickedSubCategory === "") &&
+      (matchesCategory || clickedCategory === "") &&
+      matchesSearch
+    );
   });
+
+  const sliderData = slider[0] || [];
 
   return (
     <section className="w-full h-fit flex items-center flex-col">
@@ -108,11 +128,14 @@ const PayOnlineMain = ({ merchantid, tableid }) => {
         <div className="w-full h-fit flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-[70%] h-fit flex flex-col gap-5">
             <Filters
-              category={subdatas}
+              category={categoryData}
+              subcategory={filteredSubcategories} // Pass only filtered subcategories
               searchValue={searchValue}
               setSearchValue={setSearchValue}
               clickedCategory={clickedCategory}
-              setIsCategoryOpen={setIsCategoryOpen}
+              clickedSubCategory={clickedSubCategory}
+              setIsCategoryOpen={setClickedCategory} // Rename for clarity
+              setIsSubCategoryOpen={setClickedSubCategory} // Add this prop
             />
             <div className="w-full h-fit grid grid-cols-1 md:grid-cols-2 gap-5">
               {filteredDatas.length > 0 ? (
